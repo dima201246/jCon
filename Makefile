@@ -12,20 +12,20 @@ vpath %.c ./src/
 EXECUTABLE = jCon_tests
 LIB = libjCon.so
 
-.PHONY: test lib install clean clean-all
+.PHONY: tests lib install clean clean-all
 
 lib: $(LIB) $(OBJECTS)
 
-test: $(SOURCES_TEST) $(EXECUTABLE)
+tests: $(SOURCES_TEST) $(EXECUTABLE)
 
 install: lib
 	cp $(LIB) /usr/lib/
 	cp ./src/include/jCon.h /usr/include/
 
-$(LIB) : $(OBJECTS)
+$(LIB): $(OBJECTS)
 	ar cr $@ $(OBJECTS)
 
-$(EXECUTABLE) : $(OBJECTS_TEST)
+$(EXECUTABLE): $(OBJECTS_TEST)
 	$(CC) $(OBJECTS_TEST) -o $@ $(LDFLAGS_TEST)
 
 .c.o:
