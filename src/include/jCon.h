@@ -16,7 +16,7 @@
 		JSON_ERR_NOT_FOUND,
 		JSON_ERR_OUT_OF_ARRAY,
 		JSON_ERR_UNKNOWN
-	} jsonError_t;
+	} jsonErr_t;
 
 	typedef enum {
 		JSON_VALUE_NONE,
@@ -46,32 +46,32 @@
 	void jsonSetFuncRealloc(void *(*_func_calloc)(size_t _num, size_t _size),
 		char *(*_func_strndup)(const char *_str, size_t _len));
 	void jsonFree(jsonObj_t *_obj_json);
-	jsonObj_t *jsonLoad(const char *_str_json, jsonError_t *_error);
+	jsonObj_t *jsonLoad(const char *_str_json, jsonErr_t *_error);
 
-	const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	const char * jsonGetNumberAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	unsigned long int jsonGetUL(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
+	const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	const char * jsonGetNumberAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	unsigned long int jsonGetUL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 
-	const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonError_t *_error);
-	size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error);
-	const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_path, size_t _index, jsonError_t *_error);
+	const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonErr_t *_error);
+	size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_path, size_t _index, jsonErr_t *_error);
 
 	char *jsonGenStr(jsonObj_t *_obj_json);
 
-	const char *jsonStrErr(jsonError_t _err);
+	const char *jsonStrErr(jsonErr_t _err);
 
 	/*Add*/
-	jsonError_t jsonAddObject(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
-	jsonError_t jsonAddArray(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
+	jsonErr_t jsonAddObject(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
+	jsonErr_t jsonAddArray(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
 	
-	jsonError_t jsonAddBool(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, uint8_t _bool_value);
-	jsonError_t jsonAddStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
-	jsonError_t jsonAddNumber(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long int _int_value);
-	jsonError_t jsonAddNumberByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
-	jsonError_t jsonAddNull(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
+	jsonErr_t jsonAddBool(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, uint8_t _bool_value);
+	jsonErr_t jsonAddStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
+	jsonErr_t jsonAddNumber(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long int _int_value);
+	jsonErr_t jsonAddNumberByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
+	jsonErr_t jsonAddNull(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
 #endif

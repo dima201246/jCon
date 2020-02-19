@@ -160,7 +160,7 @@ const jsonObj_t *__jsonGetObjByPath(const jsonObj_t *_obj_json, const char *_str
 }
 
 
-const char *__jsonGetNum(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+const char *__jsonGetNum(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
 	if (_error != NULL)
@@ -196,7 +196,7 @@ const char *__jsonGetNum(const jsonObj_t *_obj_json, const char *_str_path, json
 }
 
 
-const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
 	if (_error != NULL)
@@ -232,12 +232,12 @@ const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonEr
 }
 
 
-const char * jsonGetNumberAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+const char * jsonGetNumberAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	return __jsonGetNum(_obj_json, _str_path, _error);
 }
 
 
-int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const char *str_num = NULL;
 
 	str_num = __jsonGetNum(_obj_json, _str_path, _error);
@@ -251,7 +251,7 @@ int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_
 }
 
 
-long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const char *str_num = NULL;
 
 	str_num = __jsonGetNum(_obj_json, _str_path, _error);
@@ -265,7 +265,7 @@ long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonError
 }
 
 
-unsigned long int jsonGetUL(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+unsigned long int jsonGetUL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const char *str_num = NULL;
 
 	str_num = __jsonGetNum(_obj_json, _str_path, _error);
@@ -279,7 +279,7 @@ unsigned long int jsonGetUL(const jsonObj_t *_obj_json, const char *_str_path, j
 }
 
 
-float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const char *str_num = NULL;
 
 	str_num = __jsonGetNum(_obj_json, _str_path, _error);
@@ -293,7 +293,7 @@ float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonError_
 }
 
 
-jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
 	if (_error != NULL)
@@ -319,7 +319,7 @@ jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, j
 }
 
 
-uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
 	if (_error != NULL)
@@ -355,7 +355,7 @@ uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonError
 }
 
 
-const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_path, size_t _index, jsonError_t *_error) {
+const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_path, size_t _index, jsonErr_t *_error) {
 	size_t index_element_array = 0;
 
 	const jsonObj_t *ptr_obj_json = NULL;
@@ -439,7 +439,7 @@ const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_
 }
 
 
-size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
+size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
 	if (_error != NULL)

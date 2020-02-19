@@ -264,7 +264,7 @@ int __jsonAddToObject(jsonObj_t **_obj_json, const char *_str_key, size_t _len_s
 }*/
 
 
-jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *_error) {
+jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonErr_t *_error) {
 	jsonObj_t *obj_json = NULL;
 	jsonObj_t *obj_json_children = NULL;	// Тут будет зиждется объект
 	jsonObj_t *obj_json_tmp = NULL;	// Тут будет зиждется объект
@@ -779,12 +779,12 @@ void jsonSetFuncRealloc(void *(*_func_calloc)(size_t _num, size_t _size),\
 }
 
 
-jsonObj_t *jsonLoad(const char *_str_json, jsonError_t *_error) {
+jsonObj_t *jsonLoad(const char *_str_json, jsonErr_t *_error) {
 	return __jsonLoad(_str_json, strlen(_str_json), _error);
 }
 
 
-const char *jsonStrErr(jsonError_t _err) {
+const char *jsonStrErr(jsonErr_t _err) {
 	switch (_err) {
 		case JSON_OK: {
 			return "Success";
@@ -848,7 +848,7 @@ void jsonGetVer(int *_int_major, int *_int_minor, int *_int_micro) {
 }
 
 
-const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonError_t *_error) {
+const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonErr_t *_error) {
 	if (_obj_json != NULL)
 	{
 		if (_obj_json->__type == JSON_VALUE_OBJECT)

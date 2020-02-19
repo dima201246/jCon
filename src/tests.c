@@ -65,7 +65,7 @@ const char *str_json =
 
 int testGenJson() {
 	jsonObj_t *obj_json = NULL;
-	jsonError_t error = 0;
+	jsonErr_t error = 0;
 
 	error = jsonAddStr(&obj_json, "proto", "test_key_str", "test value");
 
@@ -73,7 +73,7 @@ int testGenJson() {
 }
 
 int testArray() {
-	jsonError_t error = 0;
+	jsonErr_t error = 0;
 
 	jsonObj_t *obj_json = NULL;
 	const jsonObj_t *ptr_obj_json = NULL;
@@ -99,7 +99,7 @@ int testArray() {
 int main(int argc, char const *argv[]) {
 	jsonObj_t *test_obj_json = NULL;
 	jsonObj_t *test_obj_json_2 = NULL;
-	jsonError_t error = 0;
+	jsonErr_t error = 0;
 
 /*	printf("Test JSON: \"%s\"\n\n", str_json);
 	test_obj_json = jsonLoad(str_json);
