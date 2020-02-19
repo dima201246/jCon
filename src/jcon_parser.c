@@ -163,6 +163,11 @@ const jsonObj_t *__jsonGetObjByPath(const jsonObj_t *_obj_json, const char *_str
 const char *__jsonGetNum(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
+
 	ptr_obj_json = __jsonGetObjByPath(_obj_json, _str_path);
 
 	if (ptr_obj_json != NULL)
@@ -193,6 +198,11 @@ const char *__jsonGetNum(const jsonObj_t *_obj_json, const char *_str_path, json
 
 const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
+
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
 
 	ptr_obj_json = __jsonGetObjByPath(_obj_json, _str_path);
 
@@ -286,6 +296,11 @@ float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonError_
 jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
 
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
+
 	ptr_obj_json = __jsonGetObjByPath(_obj_json, _str_path);
 
 	if (ptr_obj_json != NULL)
@@ -306,6 +321,11 @@ jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, j
 
 uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
+
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
 
 	ptr_obj_json = __jsonGetObjByPath(_obj_json, _str_path);
 
@@ -340,6 +360,11 @@ const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_
 
 	const jsonObj_t *ptr_obj_json = NULL;
 	const jsonObj_t *ptr_obj_array_json = NULL;
+
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
 
 	if ((_str_path == NULL) && (_obj_json != NULL) && (_obj_json->__type == JSON_VALUE_ARRAY))
 	{
@@ -416,6 +441,11 @@ const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_
 
 size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonError_t *_error) {
 	const jsonObj_t *ptr_obj_json = NULL;
+
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
 
 	if ((_str_path == NULL) && (_obj_json != NULL) && (_obj_json->__type == JSON_VALUE_ARRAY))
 	{

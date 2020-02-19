@@ -294,6 +294,11 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *
 	const char *ptr_key = NULL;		// Указатель на начало извлекаемого ключа
 	const char *ptr_value = NULL;	// Указатель на начало извлекаемого значения
 
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
+
 	for (index_in_json_str = 0; index_in_json_str < _len_str_json; ++index_in_json_str)
 	{
 		// Если начало JSON-объекта не найдено, то пропускать
@@ -334,6 +339,11 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *
 				}
 				else
 				{
+					if (_error != NULL)
+					{
+						*_error = JSON_ERR_BAD_JSON;
+					}
+
 					jsonFree(obj_json);
 					return (NULL);
 				}
@@ -361,7 +371,14 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *
 					}
 					else
 					{
-						printf("asdfjanksjfksfng\n");
+						if (_error != NULL)
+						{
+							*_error = JSON_ERR_INTERNAL;
+							free(obj_json_children);
+							jsonFree(obj_json);
+
+							return NULL;
+						}
 					}
 
 					free(obj_json_children);
@@ -437,9 +454,13 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *
 						}
 						else
 						{
+							if (_error != NULL)
+							{
+								*_error = JSON_ERR_BAD_JSON;
+							}
+
 							jsonFree(obj_json);
 							return NULL;
-							// TODO: ошибка чтения значения
 						}
 
 						continue;
@@ -553,6 +574,12 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *
 					{
 						obj_json_tmp = __jsonLoad(ptr_value, len_value, _error);
 
+						if (*_error != JSON_OK)
+						{
+							jsonFree(obj_json);
+							return NULL;
+						}
+
 						if (obj_json_tmp == NULL)
 						{
 							__jsonAddToObject(&obj_json_children, ptr_key, len_key,\
@@ -581,6 +608,12 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonError_t *
 					else
 					{
 						obj_json_children = __jsonLoad(ptr_value, len_value, _error);
+
+						if (*_error != JSON_OK)
+						{
+							jsonFree(obj_json);
+							return NULL;
+						}
 
 						if (obj_json_children == NULL)
 						{
@@ -745,9 +778,11 @@ void jsonSetFuncRealloc(void *(*_func_calloc)(size_t _num, size_t _size),\
 	Func_jsonStrndup = _func_strndup;
 }
 
+
 jsonObj_t *jsonLoad(const char *_str_json, jsonError_t *_error) {
 	return __jsonLoad(_str_json, strlen(_str_json), _error);
 }
+
 
 const char *jsonStrErr(jsonError_t _err) {
 	switch (_err) {
@@ -811,6 +846,7 @@ void jsonGetVer(int *_int_major, int *_int_minor, int *_int_micro) {
 	*_int_minor = VER_MINOR;
 	*_int_micro = VER_MICRO;
 }
+
 
 const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonError_t *_error) {
 	if (_obj_json != NULL)
