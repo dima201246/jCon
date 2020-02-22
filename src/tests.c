@@ -114,7 +114,7 @@ int main(int argc, char const *argv[]) {
 	printf("%s\n", jsonStrErr(jsonAddObject(&test_obj_json_2, NULL, "testobj1")));
 	printf("%s\n", jsonStrErr(jsonAddStr(&test_obj_json_2, "testobj1", "test_key_str", "test value")));
 	printf("%s\n", jsonStrErr(jsonAddObject(&test_obj_json_2, "testobj1", "testobj2")));
-	printf("%s\n", jsonStrErr(jsonAddNumber(&test_obj_json_2, "testobj1:testobj2", "test_key", 15)));
+	printf("%s\n", jsonStrErr(jsonAddNum(&test_obj_json_2, "testobj1:testobj2", "test_key", 15)));
 	printf("%s\n", jsonStrErr(jsonAddObject(&test_obj_json_2, "testobj1:testobj2", "testobj3")));
 	printf("%s\n", jsonStrErr(jsonAddArray(&test_obj_json_2, "testobj1:testobj2:testobj3", "test array")));
 	printf("%s\n", jsonStrErr(jsonAddStr(&test_obj_json_2, "testobj1:testobj2:testobj3:test array", NULL, "test value")));

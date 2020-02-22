@@ -71,7 +71,7 @@
 	
 	jsonErr_t jsonAddBool(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, uint8_t _bool_value);
 	jsonErr_t jsonAddStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
-	jsonErr_t jsonAddNumber(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long int _int_value);
-	jsonErr_t jsonAddNumberByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
+	jsonErr_t jsonAddNum(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long long _int_value);
+	jsonErr_t jsonAddNumByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
 	jsonErr_t jsonAddNull(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
 #endif

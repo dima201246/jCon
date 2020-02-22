@@ -453,16 +453,16 @@ jsonErr_t jsonAddObject(jsonObj_t **_obj_json, const char *_str_path, const char
 }
 
 
-jsonErr_t jsonAddNumber(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long int _int_value) {
+jsonErr_t jsonAddNum(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long long _int_value) {
 	char buf[32] = {};
 
-	sprintf(buf, "%ld", _int_value);
+	sprintf(buf, "%lld", _int_value);
 
 	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)buf, (strlen(buf) + 1), JSON_VALUE_NUMBER);
 }
 
 
-jsonErr_t jsonAddNumberByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value) {
+jsonErr_t jsonAddNumByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value) {
 	if (_str_value == NULL)
 	{
 		return JSON_ERR_ARGS;
