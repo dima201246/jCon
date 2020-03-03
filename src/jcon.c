@@ -284,6 +284,8 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonErr_t *_e
 	uint8_t flag_want_value = 0;	// Флаг ожидания значения
 									// 	(выставляется после успешно прочитанного ключа)
 
+	jsonErr_t json_err = JSON_OK;
+
 	int res = 0;
 
 	jsonValueType_t type_expected_value = JSON_VALUE_NONE;	// Ожидаемы тип считываемого значения
@@ -572,10 +574,15 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonErr_t *_e
 
 					if (flag_read_array == 1)
 					{
-						obj_json_tmp = __jsonLoad(ptr_value, len_value, _error);
+						obj_json_tmp = __jsonLoad(ptr_value, len_value, &json_err);
 
-						if (*_error != JSON_OK)
+						if (json_err != JSON_OK)
 						{
+							if (_error != NULL)
+							{
+								*_error = json_err;
+							}
+
 							jsonFree(obj_json);
 							return NULL;
 						}
@@ -607,10 +614,15 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonErr_t *_e
 					}
 					else
 					{
-						obj_json_children = __jsonLoad(ptr_value, len_value, _error);
+						obj_json_children = __jsonLoad(ptr_value, len_value, &json_err);
 
-						if (*_error != JSON_OK)
+						if (json_err != JSON_OK)
 						{
+							if (_error != NULL)
+							{
+								*_error = json_err;
+							}
+
 							jsonFree(obj_json);
 							return NULL;
 						}
