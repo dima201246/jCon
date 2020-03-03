@@ -478,3 +478,25 @@ size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonE
 
 	return 0;
 }
+
+
+const jsonObj_t *jsonGetObj(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
+	const jsonObj_t *ptr_obj_json = NULL;
+
+	if (_error != NULL)
+	{
+		*_error = JSON_OK;
+	}
+
+	ptr_obj_json = __jsonGetObjByPath(_obj_json, _str_path);
+
+	if (ptr_obj_json == NULL)
+	{
+		if (_error != NULL)
+		{
+			*_error = JSON_ERR_NOT_FOUND;
+		}
+	}
+
+	return ptr_obj_json;
+}

@@ -56,6 +56,7 @@
 	unsigned long int jsonGetUL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	float jsonGetFloat(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	uint8_t jsonGetBool(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	const jsonObj_t *jsonGetObj(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 
 	const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonErr_t *_error);
 	size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
