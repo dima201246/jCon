@@ -106,6 +106,7 @@ const jsonObj_t *__jsonGetObjByPath(const jsonObj_t *_obj_json, const char *_str
 						else
 						{
 							if ((_obj_json->__str_key != NULL) &&\
+								(strlen(_obj_json->__str_key) == len_str_key) && \
 								(strncmp(_obj_json->__str_key, ptr_str_key, len_str_key) == 0))
 							{
 								if ((_obj_json->__type == JSON_VALUE_OBJECT) && (flag_last_key == 0))
