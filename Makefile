@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -c -Wall -g -Isrc/include -DVER_MAJOR=0 -DVER_MINOR=1 -DVER_MICRO=0
 LDFLAGS =  
-LDFLAGS_TEST = -ljCon
+LDFLAGS_TEST = -L. -ljCon
 SOURCES = jcon_parser.c jcon.c jcon_serialization.c
 SOURCES_TEST = tests.c
 OBJECTS = $(SOURCES:.c=.o)
@@ -16,7 +16,7 @@ LIB = libjCon.so
 
 lib: $(LIB) $(OBJECTS)
 
-tests: $(SOURCES_TEST) $(EXECUTABLE)
+tests: lib $(SOURCES_TEST) $(EXECUTABLE)
 
 install: lib
 	cp $(LIB) /usr/lib/
