@@ -99,6 +99,7 @@ int testArray() {
 int main(int argc, char const *argv[]) {
 	jsonObj_t *test_obj_json = NULL;
 	jsonObj_t *test_obj_json_2 = NULL;
+	jsonObj_t *test_obj_json_3 = NULL;
 	jsonErr_t error = 0;
 
 /*	printf("Test JSON: \"%s\"\n\n", str_json);
@@ -123,7 +124,13 @@ int main(int argc, char const *argv[]) {
 	printf("%s\n", jsonStrErr(jsonAddBool(&test_obj_json_2, "testobj1:testobj2:testobj3:test array", "BOOL true", 1)));
 	printf("%s\n", jsonStrErr(jsonAddBool(&test_obj_json_2, "testobj1:testobj2:testobj3:test array", "bool false", 0)));
 	printf("%s\n", jsonStrErr(jsonAddNull(&test_obj_json_2, "testobj1:testobj2:testobj3:test array", "bool false")));
-	printf("\nStr: \"%s\"\n", jsonGenStr(test_obj_json_2));
+	// printf("\nStr: \"%s\"\n", jsonGenStr(test_obj_json_2));
+
+	printf("Original:\n");
+	jsonShowTree(test_obj_json_2);
+	test_obj_json_3 = jsonDup(test_obj_json_2);
+	printf("Copy:\n");
+	jsonShowTree(test_obj_json_3);
 
 	// jsonAddObject(&test_obj_json_2, NULL, "testobj4");
 
@@ -141,6 +148,7 @@ int main(int argc, char const *argv[]) {
 
 	jsonFree(test_obj_json);
 	jsonFree(test_obj_json_2);
+	jsonFree(test_obj_json_3);
 
 	testArray();
 

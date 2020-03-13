@@ -66,6 +66,18 @@
 
 	const char *jsonStrErr(jsonErr_t _err);
 
+	/*	Дубликатор объекта
+			Описание:
+				Дубликатор JSON-объекта
+
+			Параметры:
+				- jsonObj_t *_obj_json - JSON-объекта который необходимо дублировать
+
+			Возвращаемое значение:
+				Указатель на новый JSON-объект
+	*/
+	jsonObj_t *jsonDup(jsonObj_t *_obj_json);
+
 	/*Add*/
 	jsonErr_t jsonAddObject(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
 	jsonErr_t jsonAddArray(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);

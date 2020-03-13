@@ -890,3 +890,76 @@ const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonErr_t *_error) {
 
 	return NULL;
 }
+
+
+jsonObj_t *jsonDup(jsonObj_t *_obj_json) {
+	jsonObj_t *obj_json = NULL;
+	jsonObj_t *ptr_obj_json = NULL;
+	jsonObj_t *ptr_next_obj_json = NULL;
+
+	if (_obj_json == NULL)
+	{
+		return NULL;
+	}
+
+
+	for (;; _obj_json = ptr_next_obj_json)
+	{
+		ptr_next_obj_json = _obj_json->__ptr_next;
+
+		if (ptr_obj_json == NULL)
+		{
+			ptr_obj_json = (jsonObj_t *)Func_jsonCalloc(1, sizeof(jsonObj_t));
+			obj_json = ptr_obj_json;
+		}
+		else
+		{
+			ptr_obj_json->__ptr_next = (jsonObj_t *)Func_jsonCalloc(1, sizeof(jsonObj_t));
+			ptr_obj_json = ptr_obj_json->__ptr_next;
+		}
+
+		if (_obj_json->__str_key != NULL)
+		{
+			ptr_obj_json->__str_key = Func_jsonStrndup(_obj_json->__str_key, strlen(_obj_json->__str_key));
+		}
+
+		ptr_obj_json->__type = _obj_json->__type;
+		ptr_obj_json->__size_value = _obj_json->__size_value;
+
+		switch (_obj_json->__type) {
+			case JSON_VALUE_OBJECT:
+			case JSON_VALUE_ARRAY: {
+				ptr_obj_json->__value = jsonDup(_obj_json->__value);
+			}
+			break;
+
+			case JSON_VALUE_BOOL: {
+				ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(uint8_t));
+
+				if (*(uint8_t *)_obj_json->__value == 0)
+				{
+					*(uint8_t *)ptr_obj_json->__value = 0;
+				}
+				else
+				{
+					*(uint8_t *)ptr_obj_json->__value = 1;
+				}
+			}
+			break;
+
+			default: {
+				if (_obj_json->__value != NULL)
+				{
+					ptr_obj_json->__value = (void *)Func_jsonStrndup((const char *)_obj_json->__value, strlen((const char *)_obj_json->__value));
+				}
+			}
+		}
+
+		if (ptr_next_obj_json == NULL)
+		{
+			break;
+		}
+	}
+
+	return obj_json;
+}
