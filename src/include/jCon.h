@@ -29,16 +29,14 @@
 		JSON_VALUE_UNKNOWN
 	} jsonValueType_t;
 
-	struct jsonObj_s {
+	typedef struct jsonObj_t {
 		jsonValueType_t __type;
 		const char *__str_key;
 		void *__value;
 		size_t __size_value;
 
-		struct jsonObj_s *__ptr_next;
-	};
-
-	typedef struct jsonObj_s jsonObj_t;
+		struct jsonObj_t *__ptr_next;
+	} jsonObj_t;
 
 	void jsonGetVer(int *_int_major, int *_int_minor, int *_int_micro);
 
