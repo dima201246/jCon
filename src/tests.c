@@ -152,5 +152,34 @@ int main(int argc, char const *argv[]) {
 
 	testArray();
 
+
+	{
+		jsonObj_t *ptr_json = NULL;
+
+		jsonAddNum(&ptr_json, NULL, "ver", 1);
+		jsonAddStr(&ptr_json, NULL, "proto", "sendCmdResp");
+		jsonAddNum(&ptr_json, NULL, "ts", 0);
+		jsonAddNum(&ptr_json, NULL, "sid", 1234);
+		jsonAddStr(&ptr_json, NULL, "sender", "DAL-DEMO-ENDPOINT");
+		jsonAddStr(&ptr_json, NULL, "receiver", "EDP");
+		jsonAddObject(&ptr_json, NULL, "requestStatus");
+		jsonAddBool(&ptr_json, "requestStatus", "error", 0);
+		jsonAddNum(&ptr_json, "requestStatus", "errorCode", 0);
+		jsonAddArray(&ptr_json, "requestStatus", "endpoints");
+		jsonAddObject(&ptr_json, "requestStatus:endpoints", NULL);
+		jsonAddObject(&ptr_json, "requestStatus:endpoints", NULL);
+
+		jsonAddStrToArray(&ptr_json, "requestStatus:endpoints", 1, "id", "253/relay/1");
+		// jsonAddStr(&ptr_json, "requestStatus:endpoints:0", "id", "253/relay/1");
+		jsonAddBoolToArray(&ptr_json, "requestStatus:endpoints", 0, "sendAck", 1);
+		jsonAddBoolToArray(&ptr_json, "requestStatus:endpoints", 1, "recieveAck", 1);
+		jsonAddNumToArray(&ptr_json, "requestStatus:endpoints", 0, "errorCode", 0);
+
+		// printf("%s\n", jsonGenStr(ptr_json));
+
+		jsonShowTree(ptr_json);
+		jsonFree(ptr_json);
+	}
+
 	return 0;
 }
