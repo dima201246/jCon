@@ -39,6 +39,11 @@ const jsonObj_t *__jsonGetObjByPath(const jsonObj_t *_obj_json, const char *_str
 
 	if (_str_path == NULL)
 	{
+		if (_obj_json != NULL)
+		{
+			return _obj_json;
+		}
+
 		return NULL;
 	}
 
