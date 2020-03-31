@@ -492,7 +492,7 @@ jsonErr_t jsonAddNumByStr(jsonObj_t **_obj_json, const char *_str_path, const ch
 		return JSON_ERR_ARGS;
 	}
 
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)_str_value, strlen(_str_value), 0, JSON_VALUE_NUMBER);
+	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)_str_value, (strlen(_str_value) + 1), 0, JSON_VALUE_NUMBER);
 }
 
 

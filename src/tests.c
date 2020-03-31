@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <jCon.h>
 
 // const char *str_json = "[\"1\"]";
@@ -178,6 +179,18 @@ int main(int argc, char const *argv[]) {
 		// printf("%s\n", jsonGenStr(ptr_json));
 
 		jsonShowTree(ptr_json);
+		jsonFree(ptr_json);
+	}
+
+	{
+		jsonObj_t *ptr_json = NULL;
+
+		jsonAddNumByStr(&ptr_json, NULL, "sid", "123");
+
+		char *str_data_to_send = jsonGenStr(ptr_json);
+
+
+		free((void *)str_data_to_send);
 		jsonFree(ptr_json);
 	}
 
