@@ -47,7 +47,7 @@
 	jsonObj_t *jsonLoad(const char *_str_json, jsonErr_t *_error);
 
 	const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
-	const char * jsonGetNumberAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	const char * jsonGetNumAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);

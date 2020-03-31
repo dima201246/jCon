@@ -238,7 +238,7 @@ const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonEr
 }
 
 
-const char * jsonGetNumberAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
+const char * jsonGetNumAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error) {
 	return __jsonGetNum(_obj_json, _str_path, _error);
 }
 
