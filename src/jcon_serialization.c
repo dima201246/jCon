@@ -486,6 +486,15 @@ jsonErr_t jsonAddNum(jsonObj_t **_obj_json, const char *_str_path, const char *_
 }
 
 
+jsonErr_t jsonAddFloat(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, float _float_value) {
+	char buf[32] = {};
+
+	sprintf(buf, "%f", _float_value);
+
+	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)buf, (strlen(buf) + 1), 0, JSON_VALUE_NUMBER);
+}
+
+
 jsonErr_t jsonAddNumByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value) {
 	if (_str_value == NULL)
 	{
