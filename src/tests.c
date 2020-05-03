@@ -91,10 +91,12 @@ int testArray() {
 	{
 		ptr_obj_json = jsonGetObjInArray(obj_json, NULL, index, &error);
 
-		printf("%s\n", jsonGetStr(jsonOpenObj(ptr_obj_json, NULL), "devType", &error));
+		printf("%s\n", jsonGetStr(jsonOpenObj(ptr_obj_json, NULL), "devId", &error));
 	}
 
 	jsonFree(obj_json);
+
+	return error;
 }
 
 int main(int argc, char const *argv[]) {
@@ -191,6 +193,18 @@ int main(int argc, char const *argv[]) {
 
 
 		free((void *)str_data_to_send);
+		jsonFree(ptr_json);
+	}
+
+	{
+		// const char *ptr_str_json = "[1,2,3, 4, 5, 6]";
+		const char *ptr_str_json = "{\"objectId\":1,\"enable\":true,\"bright\":0}";
+		jsonObj_t *ptr_json = NULL;
+
+		ptr_json = jsonLoad(ptr_str_json, NULL);
+
+		jsonShowTree(ptr_json);
+		// printf("%d\n", jsonGetInt(ptr_json, "bright", NULL));
 		jsonFree(ptr_json);
 	}
 

@@ -3,7 +3,6 @@
 #include <jCon.h>
 #include <__jCon.h>
 
-
 void *(*Func_jsonCalloc)(size_t _num, size_t _size) = calloc;
 char *(*Func_jsonStrndup)(const char *_str, size_t _len) = strndup;
 
@@ -148,45 +147,46 @@ int __jsonAddToObject(jsonObj_t **_obj_json, const char *_str_key, size_t _len_s
 
 					_size_value = strlen(buf);
 
-					if ((_size_value >= 4) && (_size_value <= 5))
+					if (__jsonIsNumeric(buf, strlen(buf)) == 1)
 					{
-						__jsonStrUp(buf);
-
-						if (strcmp(buf, "TRUE") == 0)
-						{
-							flag_not_copy = 1;
-							ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(uint8_t));
-							*(uint8_t *)ptr_obj_json->__value = 1;
-							_type_obj = JSON_VALUE_BOOL;
-							_size_value = 1;
-						}
-
-						if (strcmp(buf, "FALSE") == 0)
-						{
-							flag_not_copy = 1;
-							ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(uint8_t));
-							*(uint8_t *)ptr_obj_json->__value = 0;
-							_type_obj = JSON_VALUE_BOOL;
-							_size_value = 1;
-						}
-
-						if (strcmp(buf, "NULL") == 0)
-						{
-							flag_not_copy = 1;
-							ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(void));	// Я не знаю почему, но без этого всё ломается...
-							_type_obj = JSON_VALUE_NULL;
-							_size_value = 0;
-						}
+						flag_not_copy = 1;
+						ptr_obj_json->__value = Func_jsonStrndup(buf, _size_value);
+						_type_obj = JSON_VALUE_NUMBER;
 					}
 					else
 					{
-						if (__jsonIsNumeric(buf, strlen(buf)) == 1)
+						if ((_size_value >= 4) && (_size_value <= 5))
 						{
-							flag_not_copy = 1;
-							ptr_obj_json->__value = Func_jsonStrndup(buf, _size_value);
-							_type_obj = JSON_VALUE_NUMBER;
+							__jsonStrUp(buf);
+
+							if (strcmp(buf, "TRUE") == 0)
+							{
+								flag_not_copy = 1;
+								ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(uint8_t));
+								*(uint8_t *)ptr_obj_json->__value = 1;
+								_type_obj = JSON_VALUE_BOOL;
+								_size_value = 1;
+							}
+
+							if (strcmp(buf, "FALSE") == 0)
+							{
+								flag_not_copy = 1;
+								ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(uint8_t));
+								*(uint8_t *)ptr_obj_json->__value = 0;
+								_type_obj = JSON_VALUE_BOOL;
+								_size_value = 1;
+							}
+
+							if (strcmp(buf, "NULL") == 0)
+							{
+								flag_not_copy = 1;
+								ptr_obj_json->__value = Func_jsonCalloc(1, sizeof(void));	// Я не знаю почему, но без этого всё ломается...
+								_type_obj = JSON_VALUE_NULL;
+								_size_value = 0;
+							}
 						}
-						else
+
+						if (_type_obj == JSON_VALUE_UNKNOWN)
 						{
 							ptr_obj_json->__value = Func_jsonCalloc(sizeof(jsonObj_t), sizeof(void));
 						}
@@ -527,14 +527,33 @@ jsonObj_t *__jsonLoad(const char *_str_json, size_t _len_str_json, jsonErr_t *_e
 			}
 
 			// Костыль для чтения последнего элемента в массиве неизвестного типа
-			if ((flag_read_array == 1) && (flag_read_force_read == 0) &&\
-				(_str_json[index_in_json_str] != chr_close) &&\
-				(type_expected_value != JSON_VALUE_ARRAY) &&\
-				((index_in_json_str + 1) < _len_str_json) && (_str_json[index_in_json_str + 1] == ']') &&\
-				(_str_json[index_in_json_str - 1] != '\\'))
+			if ((flag_read_array == 1) && (flag_read_force_read == 0) && \
+				(_str_json[index_in_json_str] != chr_close) && \
+				(type_expected_value != JSON_VALUE_ARRAY) && \
+				((((index_in_json_str + 1) < _len_str_json) && (_str_json[index_in_json_str + 1] == ']')) || \
+					(((index_in_json_str + 1) == _len_str_json) && (_str_json[index_in_json_str] == ']'))))
 			{
 				flag_read_force_read = 1;
-				len_value++;
+
+				if ((index_in_json_str + 1) != _len_str_json)
+				{
+					len_value++;
+				}
+			}
+
+			// Костыль для чтения последнего элемента в объекте неизвестного типа
+			if ((flag_read_array == 0) && (flag_read_force_read == 0) && \
+				(_str_json[index_in_json_str] != chr_close) && \
+				(type_expected_value == JSON_VALUE_UNKNOWN) && \
+				((((index_in_json_str + 1) < _len_str_json) && (_str_json[index_in_json_str + 1] == '}')) || \
+					(((index_in_json_str + 1) == _len_str_json) && (_str_json[index_in_json_str] == '}'))))
+			{
+				flag_read_force_read = 1;
+
+				if ((index_in_json_str + 1) != _len_str_json)
+				{
+					len_value++;
+				}
 			}
 
 			if (((_str_json[index_in_json_str] == chr_close) && (_str_json[index_in_json_str - 1] != '\\')) ||\
