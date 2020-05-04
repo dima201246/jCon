@@ -362,29 +362,23 @@ char *jsonGenStr(jsonObj_t *_obj_json) {
 }
 
 
-jsonErr_t __jsonAdd(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, \
+jsonErr_t __jsonAdd(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, size_t _len_str_key, \
 	const void *_value, size_t _size_value, size_t _index, jsonValueType_t _type_value)
 {
 	int res = 0;
 	size_t index = 0;
-	size_t len_str_key = 0;
 	jsonObj_t *ptr_obj_json = NULL;
 
-	if ((_type_value == JSON_VALUE_STR) && _value == NULL)
+	if ((_type_value == JSON_VALUE_STR) && (_value == NULL))
 	{
 		return JSON_ERR_ARGS;
-	}
-
-	if (_str_key != NULL)
-	{
-		len_str_key = strlen(_str_key);
 	}
 
 	// Обработка объекта состоящего из массива без ключа
 	if ((*_obj_json != NULL) && ((*_obj_json)->__type == JSON_VALUE_ARRAY) && \
 		((*_obj_json)->__str_key == NULL))
 	{
-		res = __jsonAddToObject((jsonObj_t **)&(*_obj_json)->__value, _str_key, len_str_key, _value, _size_value, _type_value);
+		res = __jsonAddToObject((jsonObj_t **)&(*_obj_json)->__value, _str_key, _len_str_key, _value, _size_value, _type_value);
 
 		return JSON_OK;
 	}
@@ -392,7 +386,7 @@ jsonErr_t __jsonAdd(jsonObj_t **_obj_json, const char *_str_path, const char *_s
 	if (((*_obj_json == NULL) && (_str_path == NULL)) || \
 		((*_obj_json != NULL) && (_str_path == NULL)))
 	{
-		res = __jsonAddToObject(_obj_json, _str_key, len_str_key, _value, _size_value, _type_value);
+		res = __jsonAddToObject(_obj_json, _str_key, _len_str_key, _value, _size_value, _type_value);
 
 		if (res != 0)
 		{
@@ -438,13 +432,13 @@ jsonErr_t __jsonAdd(jsonObj_t **_obj_json, const char *_str_path, const char *_s
 						return JSON_ERR_TYPE;
 					}
 
-					return __jsonAdd((jsonObj_t **)&ptr_obj_json->__value, NULL, _str_key, _value, _size_value, 0, _type_value);
+					return __jsonAdd((jsonObj_t **)&ptr_obj_json->__value, NULL, _str_key, _len_str_key, _value, _size_value, 0, _type_value);
 				}
 			}
 		}
 		else
 		{
-			res = __jsonAddToObject((jsonObj_t **)&ptr_obj_json->__value, _str_key, len_str_key, _value, _size_value, _type_value);
+			res = __jsonAddToObject((jsonObj_t **)&ptr_obj_json->__value, _str_key, _len_str_key, _value, _size_value, _type_value);
 		}
 
 		if (res != 0)
@@ -468,12 +462,24 @@ jsonErr_t jsonAddStr(jsonObj_t **_obj_json, const char *_str_path, const char *_
 		return JSON_ERR_ARGS;
 	}
 
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)_str_value, strlen(_str_value), 0, JSON_VALUE_STR);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)_str_value, strlen(_str_value), 0, JSON_VALUE_STR);
+}
+
+
+jsonErr_t jsonAddStrn(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, size_t _len_str_key, \
+	const char *_str_value, size_t _size_str_value)
+{
+	if (_str_value == NULL)
+	{
+		return JSON_ERR_ARGS;
+	}
+
+	return __jsonAdd(_obj_json, _str_path, _str_key, _len_str_key, (const void *)_str_value, _size_str_value, 0, JSON_VALUE_STR);
 }
 
 
 jsonErr_t jsonAddObject(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key) {
-	return __jsonAdd(_obj_json, _str_path, _str_key, NULL, 0, 0, JSON_VALUE_OBJECT);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), NULL, 0, 0, JSON_VALUE_OBJECT);
 }
 
 
@@ -482,7 +488,7 @@ jsonErr_t jsonAddNum(jsonObj_t **_obj_json, const char *_str_path, const char *_
 
 	sprintf(buf, "%lld", _int_value);
 
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)buf, (strlen(buf) + 1), 0, JSON_VALUE_NUMBER);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)buf, (strlen(buf) + 1), 0, JSON_VALUE_NUMBER);
 }
 
 
@@ -491,7 +497,7 @@ jsonErr_t jsonAddFloat(jsonObj_t **_obj_json, const char *_str_path, const char 
 
 	sprintf(buf, "%f", _float_value);
 
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)buf, (strlen(buf) + 1), 0, JSON_VALUE_NUMBER);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)buf, (strlen(buf) + 1), 0, JSON_VALUE_NUMBER);
 }
 
 
@@ -501,32 +507,32 @@ jsonErr_t jsonAddNumByStr(jsonObj_t **_obj_json, const char *_str_path, const ch
 		return JSON_ERR_ARGS;
 	}
 
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)_str_value, (strlen(_str_value) + 1), 0, JSON_VALUE_NUMBER);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)_str_value, (strlen(_str_value) + 1), 0, JSON_VALUE_NUMBER);
 }
 
 
 jsonErr_t jsonAddArray(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key) {
-	return __jsonAdd(_obj_json, _str_path, _str_key, NULL, 0, 0, JSON_VALUE_ARRAY);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), NULL, 0, 0, JSON_VALUE_ARRAY);
 }
 
 
 jsonErr_t jsonAddBool(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, uint8_t _bool_value) {
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)&_bool_value, 1, 0, JSON_VALUE_BOOL);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)&_bool_value, 1, 0, JSON_VALUE_BOOL);
 }
 
 
 jsonErr_t jsonAddNull(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key) {
-	return __jsonAdd(_obj_json, _str_path, _str_key, NULL, 0, 0, JSON_VALUE_NULL);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), NULL, 0, 0, JSON_VALUE_NULL);
 }
 
 
 jsonErr_t jsonAddStrToArray(jsonObj_t **_obj_json, const char *_str_path, size_t _index, const char *_str_key, const char *_str_value) {
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)_str_value, strlen(_str_value), (_index + 1), JSON_VALUE_STR);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)_str_value, strlen(_str_value), (_index + 1), JSON_VALUE_STR);
 }
 
 
 jsonErr_t jsonAddBoolToArray(jsonObj_t **_obj_json, const char *_str_path, size_t _index, const char *_str_key, uint8_t _bool_value) {
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)&_bool_value, 1, (_index + 1), JSON_VALUE_BOOL);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)&_bool_value, 1, (_index + 1), JSON_VALUE_BOOL);
 }
 
 
@@ -535,7 +541,7 @@ jsonErr_t jsonAddNumToArray(jsonObj_t **_obj_json, const char *_str_path, size_t
 
 	sprintf(buf, "%lld", _int_value);
 
-	return __jsonAdd(_obj_json, _str_path, _str_key, (const void *)buf, (strlen(buf) + 1), (_index + 1), JSON_VALUE_NUMBER);
+	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)buf, (strlen(buf) + 1), (_index + 1), JSON_VALUE_NUMBER);
 }
 
 

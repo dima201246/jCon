@@ -45,9 +45,10 @@
 		char *(*_func_strndup)(const char *_str, size_t _len));
 	void jsonFree(jsonObj_t *_obj_json);
 	jsonObj_t *jsonLoad(const char *_str_json, jsonErr_t *_error);
+	jsonObj_t *jsonLoadn(const char *_str_json, size_t _len_str_json, jsonErr_t *_error);
 
 	const char *jsonGetStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
-	const char * jsonGetNumAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
+	const char *jsonGetNumAsStr(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	int jsonGetInt(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	long long jsonGetLL(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	jsonValueType_t jsonGetType(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
@@ -83,6 +84,8 @@
 	jsonErr_t jsonAddBool(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, uint8_t _bool_value);
 	jsonErr_t jsonAddFloat(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, float _float_value);
 	jsonErr_t jsonAddStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
+	jsonErr_t jsonAddStrn(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, size_t _len_str_key, \
+		const char *_str_value, size_t _size_str_value);
 	jsonErr_t jsonAddNum(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, long long _int_value);
 	jsonErr_t jsonAddNumByStr(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, const char *_str_value);
 	jsonErr_t jsonAddNull(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);

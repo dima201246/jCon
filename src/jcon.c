@@ -815,6 +815,11 @@ jsonObj_t *jsonLoad(const char *_str_json, jsonErr_t *_error) {
 }
 
 
+jsonObj_t *jsonLoadn(const char *_str_json, size_t _len_str_json, jsonErr_t *_error) {
+	return __jsonLoad(_str_json, _len_str_json, _error);
+}
+
+
 const char *jsonStrErr(jsonErr_t _err) {
 	switch (_err) {
 		case JSON_OK: {
