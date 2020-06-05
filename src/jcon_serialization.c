@@ -357,7 +357,7 @@ char *__jsonGenStr(const jsonObj_t *_obj_json, jsonValueType_t _type_value, char
 }
 
 
-char *jsonGenStr(jsonObj_t *_obj_json) {
+char *jsonGenStr(const jsonObj_t *_obj_json) {
 	return __jsonGenStr(_obj_json, JSON_VALUE_NONE, NULL);
 }
 
@@ -582,6 +582,42 @@ jsonErr_t jsonAddNumToArray(jsonObj_t **_obj_json, const char *_str_path, size_t
 	sprintf(buf, "%lld", _int_value);
 
 	return __jsonAdd(_obj_json, _str_path, _str_key, strlen(_str_key), (const void *)buf, (strlen(buf) + 1), (_index + 1), JSON_VALUE_NUMBER);
+}
+
+
+jsonErr_t jsonAddObjectCpy(jsonObj_t **_obj_json, const char *_str_path, const jsonObj_t *_obj_json_copied) {
+	jsonObj_t *ptr_obj_json = NULL;
+	jsonErr_t err_json = JSON_OK;
+
+	if (_obj_json_copied == NULL)
+	{
+		return JSON_ERR_ARGS;
+	}
+
+	ptr_obj_json = jsonDup(_obj_json_copied);
+
+	if (_obj_json_copied->__str_key == NULL)
+	{
+		err_json = __jsonAdd(_obj_json, _str_path, NULL, 0, ptr_obj_json->__value, ptr_obj_json->__size_value, 0, ptr_obj_json->__type);
+	}
+	else
+	{
+		err_json = __jsonAdd(_obj_json, _str_path, ptr_obj_json->__str_key, strlen(ptr_obj_json->__str_key), \
+			ptr_obj_json->__value, ptr_obj_json->__size_value, 0, ptr_obj_json->__type);
+	}
+
+	if (err_json == JSON_OK)
+	{
+		free(ptr_obj_json->__value);
+		free((void *)ptr_obj_json->__str_key);
+		free((void *)ptr_obj_json);
+	}
+	else
+	{
+		jsonFree(ptr_obj_json);
+	}
+
+	return err_json;
 }
 
 

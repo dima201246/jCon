@@ -916,7 +916,7 @@ const jsonObj_t *jsonOpenObj(const jsonObj_t *_obj_json, jsonErr_t *_error) {
 }
 
 
-jsonObj_t *jsonDup(jsonObj_t *_obj_json) {
+jsonObj_t *jsonDup(const jsonObj_t *_obj_json) {
 	jsonObj_t *obj_json = NULL;
 	jsonObj_t *ptr_obj_json = NULL;
 	jsonObj_t *ptr_next_obj_json = NULL;

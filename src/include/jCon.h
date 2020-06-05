@@ -61,7 +61,7 @@
 	size_t jsonGetArraySize(const jsonObj_t *_obj_json, const char *_str_path, jsonErr_t *_error);
 	const jsonObj_t *jsonGetObjInArray(const jsonObj_t *_obj_json, const char *_str_path, size_t _index, jsonErr_t *_error);
 
-	char *jsonGenStr(jsonObj_t *_obj_json);
+	char *jsonGenStr(const jsonObj_t *_obj_json);
 
 	const char *jsonStrErr(jsonErr_t _err);
 
@@ -75,11 +75,13 @@
 			Возвращаемое значение:
 				Указатель на новый JSON-объект
 	*/
-	jsonObj_t *jsonDup(jsonObj_t *_obj_json);
+	jsonObj_t *jsonDup(const jsonObj_t *_obj_json);
 
 	/*Add*/
 	jsonErr_t jsonAddObject(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
 	jsonErr_t jsonAddArray(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key);
+
+	jsonErr_t jsonAddObjectCpy(jsonObj_t **_obj_json, const char *_str_path, const jsonObj_t *_obj_json_copied);
 	
 	jsonErr_t jsonAddBool(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, uint8_t _bool_value);
 	jsonErr_t jsonAddFloat(jsonObj_t **_obj_json, const char *_str_path, const char *_str_key, float _float_value);

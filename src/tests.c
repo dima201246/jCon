@@ -208,5 +208,26 @@ int main(int argc, char const *argv[]) {
 		jsonFree(ptr_json);
 	}
 
+	{
+		printf("====================================\n");
+		const char *ptr_str_json = "{\"objectId\":1,\"enable\":true,\"bright\":0,\"additions\":{\"additionsVer\":1}}";
+		jsonObj_t *ptr_json = NULL;
+		const jsonObj_t *ptr_json_1 = NULL;
+		jsonObj_t *ptr_json_new = NULL;
+
+		ptr_json = jsonLoad(ptr_str_json, NULL);
+		ptr_json_1 = jsonGetObj(ptr_json, "additions", NULL);
+		printf("%p\n", ptr_json_1);
+		printf("%d\n", ptr_json_1->__type);
+		printf("%s\n", ptr_json_1->__str_key);
+
+		jsonAddObjectCpy(&ptr_json_new, NULL, ptr_json_1);
+
+		jsonShowTree(ptr_json_new);
+
+		jsonFree(ptr_json);
+		jsonFree(ptr_json_new);
+	}
+
 	return 0;
 }
