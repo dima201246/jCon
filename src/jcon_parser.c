@@ -73,12 +73,18 @@ const jsonObj_t *__jsonGetObjByPath(const jsonObj_t *_obj_json, const char *_str
 					flag_last_key = 1;
 				}
 
-				flag_is_number = __jsonIsNumber(ptr_str_key, len_str_key);
-
-				if (flag_is_number == 1)
+				// Определение что необходима индексация в массиве
+				if ((ptr_str_key[0] == '[') && (ptr_str_key[len_str_key - 1] == ']'))
 				{
-					snprintf(buf, 128, "%.*s", (int)len_str_key, ptr_str_key);
-					index_element_array = atoll(buf);
+					flag_is_number = __jsonIsNumber((ptr_str_key + 1), (len_str_key - 2));
+
+					if (flag_is_number == 1)
+					{
+						// По сути, это защита памяти
+						snprintf(buf, 128, "%.*s", (int)(len_str_key - 2), (ptr_str_key + 1));
+
+						index_element_array = atoll(buf);
+					}
 				}
 
 				{
