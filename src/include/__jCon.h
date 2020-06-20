@@ -1,5 +1,8 @@
 #ifndef ___JCON
 #define ___JCON
+	#include <stdlib.h>
+	#include <jCon.h>
+	#include <stdio.h>
 
 	extern void *(*Func_jsonCalloc)(size_t _num, size_t _size);
 	extern char *(*Func_jsonStrndup)(const char *_str, size_t _len);

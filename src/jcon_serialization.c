@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <jCon.h>
 #include <__jCon.h>
 
 
