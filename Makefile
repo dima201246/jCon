@@ -10,9 +10,9 @@ OBJECTS_TEST = $(SOURCES_TEST:.c=.o)
 vpath %.c ./src/
 
 EXECUTABLE = jCon_tests
-LIB = libjCon.so
+LIB = libjCon.a
 
-.PHONY: tests lib install clean clean-all
+.PHONY: tests lib install clean clean-all remove
 
 lib: $(LIB) $(OBJECTS)
 
@@ -21,6 +21,9 @@ tests: lib $(SOURCES_TEST) $(EXECUTABLE)
 install: lib
 	cp $(LIB) /usr/lib/
 	cp ./src/include/jCon.h /usr/include/
+
+remove:
+	rm /usr/lib/$(LIB) /usr/include/jCon.h
 
 $(LIB): $(OBJECTS)
 	ar cr $@ $(OBJECTS)
@@ -36,6 +39,5 @@ clean:
 
 clean-all:
 	rm -f *.o
-	rm -f *.so
 	rm -f $(EXECUTABLE)
 	rm -f $(LIB)
